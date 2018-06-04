@@ -6,7 +6,7 @@ defmodule Rumbl.Multimedia do
   import Ecto.Query, warn: false
   alias Rumbl.Repo
 
-  alias Rumbl.Multimedia.Video
+  alias Rumbl.Multimedia.{Video, Category}
   alias Rumbl.Accounts
 
   @doc """
@@ -108,11 +108,19 @@ defmodule Rumbl.Multimedia do
     |> put_user(user)
   end
 
+  def list_alphabetical_categories(fields) do
+    Category
+    |> Category.alphabetical()
+    |> Category.select(fields)
+    |> Repo.all()
+  end
+
   def list_user_videos(%Accounts.User{} = user) do
     Video
     |> user_videos_query(user)
     |> Repo.all()
     |> preload_user()
+    |> preload_category()
   end
 
   def get_user_video!(%Accounts.User{} = user, id) do
@@ -120,6 +128,7 @@ defmodule Rumbl.Multimedia do
     |> user_videos_query(user)
     |> Repo.one!()
     |> preload_user()
+    |> preload_category()
   end
 
   defp user_videos_query(query, %Accounts.User{id: user_id}) do
@@ -132,5 +141,9 @@ defmodule Rumbl.Multimedia do
 
   defp preload_user(video_or_videos) do
     Repo.preload(video_or_videos, :user)
+  end
+
+  defp preload_category(video_or_videos) do
+    Repo.preload(video_or_videos, :category)
   end
 end

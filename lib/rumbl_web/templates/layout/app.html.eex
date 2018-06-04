@@ -21,11 +21,9 @@
             <% end %>
           </ul>
         </nav>
-        <a href="/" class="phx-logo">
-          <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
-        </a>
         <%= if @current_user do %>
           <%= link "Videos", to: Routes.video_path(@conn, :index) %>
+          <%= link "New Video", to: Routes.video_path(@conn, :new) %>
         <% end %>
       </section>
     </header>
