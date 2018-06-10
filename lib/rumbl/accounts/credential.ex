@@ -2,7 +2,6 @@ defmodule Rumbl.Accounts.Credential do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "credentials" do
     field :email, :string
     # Will exist only in the struct, not in the db
